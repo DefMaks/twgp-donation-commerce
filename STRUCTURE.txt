@@ -1,0 +1,42 @@
+twigapaie-commerce-donation/
+├── README.md
+├── admin
+│   ├── css
+│   │   └── admin-style.css
+│   ├── js
+│   │   └── admin-script.js
+│   └── views
+│       ├── dashboard.php
+│       ├── settings.php
+│       └── transactions.php
+├── assets
+│   └── images
+│       └── logo.png
+├── includes
+│   ├── class-twigapaie-admin.php
+│   ├── class-twigapaie-api.php
+│   ├── class-twigapaie-commerce.php
+│   ├── class-twigapaie-core.php
+│   ├── class-twigapaie-database.php
+│   ├── class-twigapaie-donations.php
+│   ├── class-twigapaie-payment-handler.php
+│   ├── class-twigapaie-phone-formatter.php
+│   └── class-twigapaie-supabase.php
+├── languages
+├── public
+│   ├── css
+│   │   └── public-style.css
+│   ├── js
+│   │   └── public-script.js
+│   └── templates
+│       ├── cart.php
+│       ├── checkout.php
+│       ├── donation-form.php
+│       ├── payment-cancel.php
+│       ├── payment-decline.php
+│       ├── payment-success.php
+│       └── product-single.php
+├── twigapaie-commerce-donation.php
+└── uninstall.php
+
+13 directories, 27 files
