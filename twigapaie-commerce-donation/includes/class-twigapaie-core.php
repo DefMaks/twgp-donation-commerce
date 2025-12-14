@@ -60,8 +60,16 @@ class TwigaPaie_Core {
      * Enregistrer les assets admin
      */
     public function enqueue_admin_assets($hook) {
-        // Charger uniquement sur les pages du plugin
-        if (strpos($hook, 'twigapaie') === false) {
+        global $post_type;
+        
+        // Charger sur les pages du plugin ET sur les pages d'édition des post types
+        $load_assets = (
+            strpos($hook, 'twigapaie') !== false ||
+            $post_type === 'twigapaie_product' ||
+            $post_type === 'twigapaie_campaign'
+        );
+        
+        if (!$load_assets) {
             return;
         }
         
@@ -71,6 +79,9 @@ class TwigaPaie_Core {
             array(),
             TWIGAPAIE_VERSION
         );
+        
+        // Enqueue media uploader
+        wp_enqueue_media();
         
         wp_enqueue_script(
             'twigapaie-admin-script',
