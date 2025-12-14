@@ -1,5 +1,12 @@
 /* TwigaPaie Admin Styles */
 
+/* Fix logo size in WordPress menu */
+#adminmenu .wp-menu-image img {
+    padding: 0 !important;
+    height: 100% !important;
+    width: auto !important;
+}
+
 .twigapaie-dashboard,
 .twigapaie-settings,
 .twigapaie-transactions {
