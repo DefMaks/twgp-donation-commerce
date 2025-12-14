@@ -75,6 +75,7 @@ function twigapaie_init() {
     new TwigaPaie_Commerce();
     new TwigaPaie_Admin();
     new TwigaPaie_Payment_Handler();
+    new TwigaPaie_Download();
 }
 add_action('plugins_loaded', 'twigapaie_init');
 
