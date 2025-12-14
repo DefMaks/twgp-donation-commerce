@@ -234,7 +234,7 @@ class TwigaPaie_Payment_Handler {
         $subject = __('Votre achat est confirmé', 'twiga-commerce-donation');
         
         $message = __('Bonjour', 'twiga-commerce-donation') . ' ' . $order->customer_name . ',<br><br>';
-        $message .= __('Merci pour votre achat. Voici les liens de téléchargement de vos produits:', 'twiga-commerce-donation') . '<br><br>';
+        $message .= __('Merci pour votre achat. Voici les liens de téléchargement sécurisés de vos produits:', 'twiga-commerce-donation') . '<br><br>';
         
         $items = json_decode($order->items, true);
         global $wpdb;
@@ -244,9 +244,20 @@ class TwigaPaie_Payment_Handler {
             $product = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_products WHERE post_id = %d", $item['product_id']));
             if ($product && $product->file_url) {
                 $post = get_post($item['product_id']);
-                $message .= '- ' . $post->post_title . ': <a href="' . esc_url($product->file_url) . '">' . __('Télécharger', 'twiga-commerce-donation') . '</a><br>';
+                
+                // Créer un token de téléchargement sécurisé
+                $token = TwigaPaie_Download::create_download_token($order->id, $item['product_id'], 30);
+                
+                if ($token) {
+                    $download_url = TwigaPaie_Download::get_download_url($token);
+                    $message .= '- <strong>' . $post->post_title . '</strong>: <a href="' . esc_url($download_url) . '">' . __('Télécharger', 'twiga-commerce-donation') . '</a><br>';
+                }
             }
         }
+        
+        $message .= '<br><p style="color: #646970; font-size: 13px;">';
+        $message .= __('Les liens de téléchargement sont valables pendant 30 jours.', 'twiga-commerce-donation');
+        $message .= '</p>';
         
         $message .= '<br>' . __('Cordialement,', 'twiga-commerce-donation') . '<br>';
         $message .= get_bloginfo('name');
