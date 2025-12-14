@@ -110,5 +110,25 @@ class TwigaPaie_Database {
             KEY status (status)
         ) $charset_collate;";
         dbDelta($sql_transactions);
+        
+        // Table des téléchargements sécurisés
+        $table_downloads = $wpdb->prefix . 'twigapaie_downloads';
+        $sql_downloads = "CREATE TABLE $table_downloads (
+            id bigint(20) NOT NULL AUTO_INCREMENT,
+            token varchar(255) NOT NULL UNIQUE,
+            order_id bigint(20) NOT NULL,
+            product_id bigint(20) NOT NULL,
+            customer_email varchar(255) NOT NULL,
+            download_limit int(11) DEFAULT -1,
+            download_count int(11) DEFAULT 0,
+            expires_at datetime NOT NULL,
+            created_at datetime DEFAULT CURRENT_TIMESTAMP,
+            PRIMARY KEY (id),
+            KEY token (token),
+            KEY order_id (order_id),
+            KEY product_id (product_id),
+            KEY customer_email (customer_email)
+        ) $charset_collate;";
+        dbDelta($sql_downloads);
     }
 }
