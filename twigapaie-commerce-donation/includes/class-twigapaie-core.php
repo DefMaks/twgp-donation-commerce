@@ -104,6 +104,7 @@ class TwigaPaie_Core {
             'show_in_menu' => false,
             'supports' => array('title', 'editor', 'thumbnail'),
             'rewrite' => array('slug' => 'campagnes'),
+            'taxonomies' => array('campaign_category', 'campaign_tag'),
         ));
         
         // Type de post pour les produits numériques
@@ -120,6 +121,55 @@ class TwigaPaie_Core {
             'show_in_menu' => false,
             'supports' => array('title', 'editor', 'thumbnail'),
             'rewrite' => array('slug' => 'produits'),
+            'taxonomies' => array('product_category', 'product_tag'),
+        ));
+        
+        // Taxonomie Catégories pour Campagnes
+        register_taxonomy('campaign_category', 'twigapaie_campaign', array(
+            'labels' => array(
+                'name' => __('Catégories de Campagnes', 'twiga-commerce-donation'),
+                'singular_name' => __('Catégorie', 'twiga-commerce-donation'),
+                'add_new_item' => __('Ajouter une nouvelle catégorie', 'twiga-commerce-donation'),
+            ),
+            'hierarchical' => true,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'categorie-campagne'),
+        ));
+        
+        // Taxonomie Mots-clés pour Campagnes
+        register_taxonomy('campaign_tag', 'twigapaie_campaign', array(
+            'labels' => array(
+                'name' => __('Mots-clés Campagnes', 'twiga-commerce-donation'),
+                'singular_name' => __('Mot-clé', 'twiga-commerce-donation'),
+                'add_new_item' => __('Ajouter un nouveau mot-clé', 'twiga-commerce-donation'),
+            ),
+            'hierarchical' => false,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'mot-cle-campagne'),
+        ));
+        
+        // Taxonomie Catégories pour Produits
+        register_taxonomy('product_category', 'twigapaie_product', array(
+            'labels' => array(
+                'name' => __('Catégories de Produits', 'twiga-commerce-donation'),
+                'singular_name' => __('Catégorie', 'twiga-commerce-donation'),
+                'add_new_item' => __('Ajouter une nouvelle catégorie', 'twiga-commerce-donation'),
+            ),
+            'hierarchical' => true,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'categorie-produit'),
+        ));
+        
+        // Taxonomie Mots-clés pour Produits
+        register_taxonomy('product_tag', 'twigapaie_product', array(
+            'labels' => array(
+                'name' => __('Mots-clés Produits', 'twiga-commerce-donation'),
+                'singular_name' => __('Mot-clé', 'twiga-commerce-donation'),
+                'add_new_item' => __('Ajouter un nouveau mot-clé', 'twiga-commerce-donation'),
+            ),
+            'hierarchical' => false,
+            'show_admin_column' => true,
+            'rewrite' => array('slug' => 'mot-cle-produit'),
         ));
     }
     
