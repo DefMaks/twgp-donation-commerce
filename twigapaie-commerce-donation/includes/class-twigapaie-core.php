@@ -173,19 +173,44 @@ class TwigaPaie_Core {
             'limit' => 12,
         ), $atts);
         
-        ob_start();
+        global $wpdb;
+        
+        // Récupérer les produits
         $products = get_posts(array(
             'post_type' => 'twigapaie_product',
             'posts_per_page' => intval($atts['limit']),
+            'post_status' => 'publish',
+            'orderby' => 'date',
+            'order' => 'DESC',
         ));
         
-        echo '<div class="twigapaie-products-grid">';
-        foreach ($products as $product) {
-            setup_postdata($product);
-            include TWIGAPAIE_PLUGIN_DIR . 'public/templates/product-single.php';
+        ob_start();
+        
+        if (empty($products)) {
+            echo '<div class="twigapaie-no-products">';
+            echo '<p>' . __('Aucun produit disponible pour le moment.', 'twiga-commerce-donation') . '</p>';
+            echo '</div>';
+        } else {
+            echo '<div class="twigapaie-products-grid">';
+            
+            $table_products = $wpdb->prefix . 'twigapaie_products';
+            
+            foreach ($products as $product) {
+                // Vérifier que le produit a des données dans la table meta
+                $product_data = $wpdb->get_row($wpdb->prepare(
+                    "SELECT * FROM $table_products WHERE post_id = %d AND is_active = 1",
+                    $product->ID
+                ));
+                
+                if ($product_data) {
+                    setup_postdata($product);
+                    include TWIGAPAIE_PLUGIN_DIR . 'public/templates/product-single.php';
+                    wp_reset_postdata();
+                }
+            }
+            
+            echo '</div>';
         }
-        echo '</div>';
-        wp_reset_postdata();
         
         return ob_get_clean();
     }
