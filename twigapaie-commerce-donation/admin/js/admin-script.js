@@ -1,17 +1,20 @@
 jQuery(document).ready(function($) {
     'use strict';
     
-    // Gestionnaire de téléchargement de fichiers
-    $('#upload_file_button').on('click', function(e) {
+    // Gestionnaire de téléchargement de fichiers pour les produits
+    $(document).on('click', '#upload_file_button', function(e) {
         e.preventDefault();
         
+        var button = $(this);
         var fileFrame;
         
+        // Si le media frame existe déjà, l'ouvrir
         if (fileFrame) {
             fileFrame.open();
             return;
         }
         
+        // Créer le media frame
         fileFrame = wp.media({
             title: 'Sélectionner un fichier',
             button: {
@@ -20,11 +23,18 @@ jQuery(document).ready(function($) {
             multiple: false
         });
         
+        // Quand un fichier est sélectionné
         fileFrame.on('select', function() {
             var attachment = fileFrame.state().get('selection').first().toJSON();
             $('#product_file_url').val(attachment.url);
+            button.text('Fichier sélectionné ✓').css('color', '#00a32a');
+            
+            setTimeout(function() {
+                button.text('Télécharger un fichier').css('color', '');
+            }, 3000);
         });
         
+        // Ouvrir le media frame
         fileFrame.open();
     });
     
