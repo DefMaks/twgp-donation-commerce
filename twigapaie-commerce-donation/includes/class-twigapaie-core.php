@@ -14,15 +14,16 @@ class TwigaPaie_Core {
         add_action('wp_enqueue_scripts', array($this, 'enqueue_public_assets'));
         add_action('admin_enqueue_scripts', array($this, 'enqueue_admin_assets'));
         
-        // Enregistrer les types de post personnalisés
-        add_action('init', array($this, 'register_post_types'));
-        
         // Enregistrer les shortcodes
         add_action('init', array($this, 'register_shortcodes'));
         
         // Ajouter les endpoints personnalisés
         add_action('init', array($this, 'add_rewrite_rules'));
         add_action('template_redirect', array($this, 'handle_custom_endpoints'));
+        
+        // Gérer les templates pour les post types
+        add_filter('single_template', array($this, 'load_custom_template'));
+        add_filter('archive_template', array($this, 'load_custom_archive_template'));
     }
     
     /**
